@@ -16,30 +16,19 @@ class Ingredient_pizzaController extends Controller
 
             Log::info("Adding ingredients working");
             $pizza = Pizza::find($id);
-
-            if (!$pizza) {
-                return response()->json(
-                    [
-                        "success" => false,
-                        "message" => "Pizza not found",
-                    ],
-                    404
-                );
-            }
-
-            $ingredients = Ingredient::query()->get();
-
-            foreach ($ingredients as $ingredient) {
-                $ingrediendId = $ingredient->id;
-                $findIngredient = Ingredient_pizza::whereNot('pizza_id', '=', $pizza->id)->first();
-                $notInPizzaIngredient
-            }
+            $pizzaId = $pizza->id;
+            $ingredientId = $request->input('ingredient_id');
+            
+            $newIngredient_pizza = new Ingredient_pizza();
+            $newIngredient_pizza->ingredient_id = $ingredientId;
+            $newIngredient_pizza->pizza_id = $pizzaId;
+            $newIngredient_pizza->save();
 
             return response()->json(
                 [
                     "success" => true,
-                    "message" => "Ingredient added",
-                    "data" => $
+                    "message" => "Ingredient added to Pizza",
+                    "data" => $newIngredient_pizza
                 ],
                 200
             );
@@ -55,4 +44,5 @@ class Ingredient_pizzaController extends Controller
             );
         }
     }
+
 }
