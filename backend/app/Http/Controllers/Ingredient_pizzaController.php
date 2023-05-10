@@ -8,23 +8,9 @@ use App\Models\Pizza;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class IngredientController extends Controller
+class Ingredient_pizzaController extends Controller
 {
-    public function getAllIngredients()
-    {
-        $ingredients = Ingredient::query()->get();
-
-
-
-        return [
-            "success" => true,
-            "message" => "All ingredients successfully retrieved",
-            "data" =>$ingredients
-        ];
-
-    }
-
-    public function getAllIngredientsNotInSelectedPizza(Request $request, $id)
+    public function addIngredientToPizzaByPizzaId(Request $request, $id)
     {
         try{
 
@@ -43,22 +29,17 @@ class IngredientController extends Controller
 
             $ingredients = Ingredient::query()->get();
 
-            $notInPizzaIngredients = [];
             foreach ($ingredients as $ingredient) {
-                $ingredientId = $ingredient->id;
-                $findIngredient = Ingredient_pizza::where('ingredient_id', $ingredientId)
-                    ->whereNot('pizza_id', $pizza->id)
-                    ->first();
-                if (!$findIngredient) {
-                    $notInPizzaIngredients[] = $ingredient;
-                }
+                $ingrediendId = $ingredient->id;
+                $findIngredient = Ingredient_pizza::whereNot('pizza_id', '=', $pizza->id)->first();
+                $notInPizzaIngredient
             }
 
             return response()->json(
                 [
                     "success" => true,
-                    "message" => "Ingredient not in pizza",
-                    "data" => $notInPizzaIngredients
+                    "message" => "Ingredient added",
+                    "data" => $
                 ],
                 200
             );
@@ -74,6 +55,4 @@ class IngredientController extends Controller
             );
         }
     }
-
-
 }
