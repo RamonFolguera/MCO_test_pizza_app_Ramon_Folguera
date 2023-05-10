@@ -23,6 +23,10 @@ class DatabaseSeeder extends Seeder
             PizzaSeeder::class,
         ]);
 
+        $this->call([
+            Ingredient_pizzaSeeder::class,
+        ]);
+
 
         // \App\Models\User::factory(10)->create();
 

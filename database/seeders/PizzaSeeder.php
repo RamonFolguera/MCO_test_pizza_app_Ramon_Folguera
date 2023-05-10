@@ -16,6 +16,39 @@ class PizzaSeeder extends Seeder
      */
     public function run()
     {
-        
+
+        $ingredients = DB::table('ingredients')->get();
+
+
+        DB::table('pizzas')->insert(
+            [
+                [
+                    'name' => "Pepperoni",
+                    'pizza_price' => 3,
+                ],
+                [
+                    'name' => "Supreme",
+                    'pizza_price' => 8.25,
+                ],
+                [
+                    'name' => "Hawaiian",
+                    'pizza_price' => 3.75,
+                ],
+                [
+                    'name' => "Vegetarian",
+                    'pizza_price' => 5.25,
+                ],
+                [
+                    'name' => "Capricciosa",
+                    'pizza_price' => 5.25,
+                ],
+                [
+                    'name' => "BBQ MeatLovers",
+                    'pizza_price' => 9,
+                ],
+                
+            ]
+        );
+
     }
 }
