@@ -1,0 +1,8 @@
+
+
+$ composer require laravel/ui
+$ php artisan ui bootstrap --auth
+$ npm install && npm run dev
+
+
+php artisan make:controller PizzaController -r  (gives you 6 methods)
