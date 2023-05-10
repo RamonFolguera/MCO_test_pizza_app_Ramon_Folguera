@@ -18,7 +18,6 @@ class IngredientController extends Controller
             "message" => "All ingredients successfully retrieved",
             "data" =>$ingredients
         ];
-
     }
 
     public function getAllIngredientsNotInSelectedPizza(Request $request, $id)
@@ -43,14 +42,18 @@ class IngredientController extends Controller
             $notInPizzaIngredients = [];
             foreach ($ingredients as $ingredient) {
                 $ingredientId = $ingredient->id;
-                $findIngredient = Ingredient_pizza::where('ingredient_id', $ingredientId)
-                    ->whereNot('pizza_id', $pizza->id)
+                $ingredientName =$ingredient->name;
+                $findIngredient = Ingredient_pizza::where('ingredient_id', '=', $ingredientId)
+                    ->where('pizza_id', '=', $pizza->id)
                     ->first();
                 if (!$findIngredient) {
-                    $notInPizzaIngredients[] = $ingredient;
+                    $notInPizzaIngredients[] = [
+                        "id" => $ingredientId,
+                        "name" => $ingredientName
+                    ];
                 }
             }
-
+          
             return response()->json(
                 [
                     "success" => true,
@@ -65,7 +68,7 @@ class IngredientController extends Controller
             return response()->json(
                 [
                     "success" => false,
-                    "message" => "Error adding ingredients"
+                    "message" => "Error adding ingredients" . $notInPizzaIngredients
                 ],
                 500
             );
