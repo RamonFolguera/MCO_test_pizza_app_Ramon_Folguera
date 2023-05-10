@@ -15,7 +15,7 @@ class Ingredient_pizzaSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('ingredients_pizza')->insert([
+        DB::table('ingredient_pizzas')->insert([
             [
                 'pizza_id' => 1,
                 'ingredient_id' => 2,

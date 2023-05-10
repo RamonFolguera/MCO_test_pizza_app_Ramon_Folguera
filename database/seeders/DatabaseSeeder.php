@@ -16,12 +16,12 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
-            IngredientSeeder::class,
+            PizzaSeeder::class,
         ]);
 
         $this->call([
-            PizzaSeeder::class,
-        ]);
+            IngredientSeeder::class,
+        ]); 
 
         $this->call([
             Ingredient_pizzaSeeder::class,
