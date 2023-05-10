@@ -7,15 +7,15 @@ export const NavBar = () => {
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
           <Container>
-            <Navbar.Brand href="#home">MCO Pizza App</Navbar.Brand>
+            <Navbar.Brand href="/">MCO Pizza App</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto">
-                <Nav.Link href="#features">Menu</Nav.Link>
+                <Nav.Link href="./pizza-menu">Menu</Nav.Link>
               </Nav>
               <Nav>
-                <Nav.Link href="#deets">Log in</Nav.Link>
-                <Nav.Link href="#deets">Register</Nav.Link>
+                <Nav.Link href="./login">Log in</Nav.Link>
+                <Nav.Link href="./register">Register</Nav.Link>
                
               </Nav>
             </Navbar.Collapse>
