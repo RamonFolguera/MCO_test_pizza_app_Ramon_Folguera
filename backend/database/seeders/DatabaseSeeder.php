@@ -14,6 +14,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        $this->call([
+            PizzaSeeder::class,
+        ]);
+
+        $this->call([
+            IngredientSeeder::class,
+        ]); 
+
+        $this->call([
+            Ingredient_pizzaSeeder::class,
+        ]);
+
+
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
