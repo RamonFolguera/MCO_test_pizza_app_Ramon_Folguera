@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Ingredient_pizzaController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\PizzaController;
 use Illuminate\Http\Request;
@@ -24,8 +25,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('Welcome to my pizza app');
 });
-
-
 
 Route::get('/pizzas', [PizzaController::class, 'getAllPizzas']);
 Route::get('/ingredients', [IngredientController::class, 'getAllIngredients']);

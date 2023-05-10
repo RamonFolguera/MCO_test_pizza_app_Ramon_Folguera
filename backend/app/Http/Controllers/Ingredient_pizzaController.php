@@ -12,49 +12,45 @@ class Ingredient_pizzaController extends Controller
 {
     public function addIngredientToPizzaByPizzaId(Request $request, $id)
     {
-        try{
+        try {
 
-            Log::info("Adding ingredients working");
             $pizza = Pizza::find($id);
-            $pizzaId = $pizza->id;
             $ingredientId = $request->input('ingredient_id');
-            
+
             $newIngredient_pizza = new Ingredient_pizza();
             $newIngredient_pizza->ingredient_id = $ingredientId;
-            $newIngredient_pizza->pizza_id = $pizzaId;
+            $newIngredient_pizza->pizza_id = $pizza->id;
             $newIngredient_pizza->save();
 
-            return response()->json(
-                [
-                    "success" => true,
-                    "message" => "Ingredient added to Pizza",
-                    "data" => $newIngredient_pizza
-                ],
-                200
-            );
+            $ingredientPrice = Ingredient::find($ingredientId)->ingredient_price;
+            $ingredientPricePlus = $ingredientPrice * 1.5;
 
-        }catch (\Throwable $th) {
+            $pizza->pizza_price += $ingredientPricePlus;
+            $pizza->save();
+            return response()->json([
+                "success" => true,
+                "message" => "Ingredient added to Pizza",
+                "data" => $newIngredient_pizza
+            ], 200);
+        } catch (\Throwable $th) {
             Log::error("ADDING INGREDIENT: " . $th->getMessage());
-            return response()->json(
-                [
-                    "success" => false,
-                    "message" => "Error adding ingredients"
-                ],
-                500
-            );
+            return response()->json([
+                "success" => false,
+                "message" => "Error adding ingredients"
+            ], 500);
         }
     }
 
     public function removeIngredientToPizzaByPizzaId(Request $request, $id)
     {
-        try{
+        try {
 
             Log::info("Adding ingredients working");
             $pizza = Pizza::find($id);
             $pizzaId = $pizza->id;
             $ingredientId = $request->input('ingredient_id');
-            
-            Ingredient_pizza::where('pizza_id',"=", $pizzaId)->where('ingredient_id', '=', $ingredientId)->delete();
+
+            Ingredient_pizza::where('pizza_id', "=", $pizzaId)->where('ingredient_id', '=', $ingredientId)->delete();
 
             return response()->json(
                 [
@@ -63,8 +59,7 @@ class Ingredient_pizzaController extends Controller
                 ],
                 200
             );
-
-        }catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             Log::error("DELETING INGREDIENT: " . $th->getMessage());
             return response()->json(
                 [
