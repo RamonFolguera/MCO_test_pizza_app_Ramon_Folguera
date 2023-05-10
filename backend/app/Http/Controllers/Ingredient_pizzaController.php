@@ -52,6 +52,12 @@ class Ingredient_pizzaController extends Controller
 
             Ingredient_pizza::where('pizza_id', "=", $pizzaId)->where('ingredient_id', '=', $ingredientId)->delete();
 
+            $ingredientPrice = Ingredient::find($ingredientId)->ingredient_price;
+            $ingredientPricePlus = $ingredientPrice * 1.5;
+
+            $pizza->pizza_price -= $ingredientPricePlus;
+            $pizza->save();
+
             return response()->json(
                 [
                     "success" => true,
