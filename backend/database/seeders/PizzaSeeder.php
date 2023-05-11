@@ -25,26 +25,32 @@ class PizzaSeeder extends Seeder
                 [
                     'name' => "Pepperoni",
                     'pizza_price' => 3,
+                    'image' => 'Pepperoni.jpg'
                 ],
                 [
                     'name' => "Supreme",
                     'pizza_price' => 8.25,
+                    'image' => 'Supreme.jpg'
                 ],
                 [
                     'name' => "Hawaiian",
                     'pizza_price' => 3.75,
+                    'image' => 'Pineapple.jpg'
                 ],
                 [
                     'name' => "Vegetarian",
                     'pizza_price' => 5.25,
+                    'image' => 'Vegetarian.jpg'
                 ],
                 [
                     'name' => "Capricciosa",
                     'pizza_price' => 5.25,
+                    'image' => 'Capricciosa.jpg'
                 ],
                 [
                     'name' => "BBQ MeatLovers",
                     'pizza_price' => 9,
+                    'image' => 'Meatlovers.jpg'
                 ],
                 
             ]

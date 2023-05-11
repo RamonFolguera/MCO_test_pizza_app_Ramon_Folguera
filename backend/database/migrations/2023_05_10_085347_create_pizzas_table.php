@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable(false);
             $table->decimal('pizza_price', 4, 2);
-            $table->boolean('is_active')->default(true);
+            $table->string('image');
             $table->timestamps();
         });
     }
