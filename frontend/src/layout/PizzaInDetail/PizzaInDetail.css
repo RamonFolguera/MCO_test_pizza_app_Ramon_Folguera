@@ -48,3 +48,24 @@
     cursor:pointer;
 
 }
+.selectedImg {
+    height: 30em;
+}
+
+.priceDesign{
+    font-size: 5em;
+    color:#ee6055;
+}
+
+.pizzaSelectedNamefield {
+    font-size: 2em;
+    color:#ee6055;
+    font-weight: bolder;
+
+}
+
+.ingredientsList{
+    
+    background-color: rgb(244, 244, 244);
+
+}

@@ -44,7 +44,7 @@ export const PizzaInDetail = () => {
   const pizzaDetailsRedux = useSelector(detailsData);
   const selectedPizza = pizzaDetailsRedux.choosenPizza;
   const ingredient_pizzaSelected = selectedPizza.ingredient_pizzas;
-  console.log(ingredient_pizzaSelected);
+
 
   const inputHandler = (e) => {
     setAddedIngredient((prevState) => ({
@@ -53,9 +53,6 @@ export const PizzaInDetail = () => {
     }));
   };
 
-  console.log(removedIngredient, "delete");
-
-  console.log(addedIngredient, "add");
   useEffect(() => {
     if (allPizzas.length === 0) {
       bringPizzas()
@@ -63,8 +60,7 @@ export const PizzaInDetail = () => {
           if (result.data.data.length === 0) {
             return;
           }
-          console.log(result.data.data);
-          console.log(selectedPizza);
+      
           const myPizza = result.data.data.find(
             (pizza) => pizza.id === selectedPizza.id
           );
@@ -75,13 +71,12 @@ export const PizzaInDetail = () => {
     }
   }, [allPizzas]);
 
-  console.log(pizzaSelected);
 
   useEffect(() => {
     if (allIngredients.length === 0) {
       bringAllIngredients()
         .then((result) => {
-          console.log(result, "allIngredients");
+        
 
           if (result.data.data.length === 0) {
             return;
@@ -93,13 +88,13 @@ export const PizzaInDetail = () => {
     }
   }, [allIngredients]);
 
-  console.log(allIngredientsInSelectedPizza);
+
 
   useEffect(() => {
     if (allIngredientsNotInSelectedPizza.length === 0) {
       bringAllIngredientsNotInPizza(selectedPizza.id)
         .then((result) => {
-          console.log(result, "allIngredientsNotInSelectedPizza");
+        
           if (result.data.data.length === 0) {
             return;
           }
@@ -113,8 +108,7 @@ export const PizzaInDetail = () => {
     if (allIngredient_pizzasByPizzaId.length === 0) {
       bringAllIngredient_pizzasByPizzaId(selectedPizza.id)
         .then((result) => {
-          console.log(result, "ing_pizza");
-          console.log(allIngredients, "all");
+  
           if (result.data.data.length === 0) {
             return;
           }
@@ -135,8 +129,6 @@ export const PizzaInDetail = () => {
     }
   }, [allIngredients, allIngredient_pizzasByPizzaId]);
 
-  console.log(allIngredient_pizzasByPizzaId);
-  console.log(allIngredientsInSelectedPizza);
 
   const handleModalClick = (ingredient) => {
     handleShowModal();
@@ -148,7 +140,6 @@ export const PizzaInDetail = () => {
       ingredient_id: addedIngredient.ingredient_id,
     })
       .then((response) => {
-        console.log(response);
 
         setAllIngredient_pizzasByPizzaId((prevState) => [
           ...prevState,
@@ -179,7 +170,7 @@ export const PizzaInDetail = () => {
   };
 
   const removeIngredient = () => {
-    console.log(removedIngredient.id);
+
     handleCloseModal();
     deleteIngredient(selectedPizza.id, {
       ingredient_id: removedIngredient.id,
@@ -209,8 +200,8 @@ export const PizzaInDetail = () => {
 
   return (
     <Container>
-      <Row className="mt-5">
-        <Col className="defaultHeight">
+      <Row className="">
+        <Col lg={4}  xs={12} className="defaultHeight d-flex flex-column justify-content-center align-items-center">
           {showModal && (
             <div className="modalContainer">
               <ModalTemplate
@@ -225,21 +216,25 @@ export const PizzaInDetail = () => {
               />
             </div>
           )}
+        
 
           <img
+            className="selectedImg"
             src={`http://localhost:8000/storage/img/${selectedPizza.image}`}
             alt=""
           />
-          {pizzaSelected.name}
-          {pizzaSelected.pizza_price}
         </Col>
 
-        <Col className="defaultHeight">
+        <Col xs={12} lg={4} className="defaultHeight pt-5 ingredientsList ">
+          <div>
+          <p className="me-2 pizzaSelectedNamefield">PIZZA {pizzaSelected.name}</p>
+        </div>
+        <div>
           {selectedPizza &&
             allIngredientsInSelectedPizza.map((ingredient) => {
               return (
                 <div key={ingredient.id}>
-                  <div className="d-flex">
+                  <div className="d-flex justify-content-between w-75">
                     <p className="me-5">{ingredient.name} </p>
                     <div
                       className="deleteBtn"
@@ -250,10 +245,14 @@ export const PizzaInDetail = () => {
                     </div>
                   </div>
                 </div>
+                
               );
             })}
+             </div>
+       
         </Col>
-        <Col>
+        <Col lg={4} xs={12} className="defaultHeight pt-5 d-flex flex-column justify-content-between">
+        <div>
           <Form>
             <Form.Group className="mb-3">
               <p className="pe-4 nameFieldDesign ps-3">LIST OF INGREDIENTS</p>
@@ -276,10 +275,15 @@ export const PizzaInDetail = () => {
               </Form.Select>
             </Form.Group>
           </Form>
+
           <div 
           className="addBtn"
           type="button" onClick={() => addNewIngredient()}>
             ADD
+          </div>
+          </div>
+          <div>
+        <p className="me-2 namefield">TOTAL PRICE: <span className="priceDesign">{pizzaSelected.pizza_price}</span> eur</p>
           </div>
         </Col>
       </Row>
