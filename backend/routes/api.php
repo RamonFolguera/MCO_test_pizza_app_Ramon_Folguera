@@ -27,9 +27,10 @@ Route::get('/', function () {
 });
 
 Route::get('/pizzas', [PizzaController::class, 'getAllPizzas']);
+
 Route::get('/ingredients', [IngredientController::class, 'getAllIngredients']);
 Route::get('/ingredients-not-in-pizza/{id}', [IngredientController::class, 'getAllIngredientsNotInSelectedPizza']);
 
-Route::post('/add-ingredient/{id}', [Ingredient_pizzaController::class, 'addIngredientToPizzaByPizzaId']);
 Route::delete('/remove-ingredient/{id}', [Ingredient_pizzaController::class, 'removeIngredientToPizzaByPizzaId']);
-
+Route::post('/add-ingredient/{id}', [Ingredient_pizzaController::class, 'addIngredientToPizzaByPizzaId']);
+Route::get('/ingredient-pizzas/{id}', [Ingredient_pizzaController::class, 'getIngredient_pizzasByPizzaId']);

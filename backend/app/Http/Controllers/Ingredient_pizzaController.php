@@ -10,6 +10,41 @@ use Illuminate\Support\Facades\Log;
 
 class Ingredient_pizzaController extends Controller
 {
+
+    public function getIngredient_pizzasByPizzaId(Request $request, $id)
+    {
+        try {
+        $pizza = Pizza::find($id);
+
+        if (!$pizza) {
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "Pizza not found",
+                ],
+                404
+            );
+        }
+        
+        $ingredient_pizzas = Ingredient_pizza::where('pizza_id','=',$pizza->id)->get();
+  
+        return [
+            "success" => true,
+            "message" => "All ingredient_pizzas of selected Pizza successfully retrieved",
+            "data" =>   $ingredient_pizzas  
+        ];
+    } catch (\Throwable $th) {
+        Log::error("DELETING INGREDIENT: " . $th->getMessage());
+        return response()->json(
+            [
+                "success" => false,
+                "message" => "Error retrieving ingredient_pizzas"
+            ],
+            500
+        );
+    }
+    }
+
     public function addIngredientToPizzaByPizzaId(Request $request, $id)
     {
         try {
