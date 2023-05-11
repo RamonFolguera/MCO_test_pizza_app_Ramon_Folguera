@@ -1,23 +1,25 @@
 # Pizza Web app test for MCO by Ramón Folguera🧑💻
 
-<details>
   <summary>Summary 📝</summary>
   <ol>
     <li><a href="#stack">Stack</a></li>
-    <li><a href="#diagrama-bd">Diagram</a></li>
-    <li><a href="#instalación-en-local">Installation</a></li>
-    <li><a href="#work-flow">Work-flow</a></li>
+    <li><a href="#ddbb-diagram">Diagram</a></li>
+    <li><a href="#local-installation">Installation</a></li>
     <li><a href="#endpoints">Endpoints</a></li>
-    <li><a href="#futuras-funcionalidades">Future funtionalities</a></li>
-    <li><a href="#licencia">Licence</a></li>
-    <li><a href="#webgrafia">webography</a></li>
-    <li><a href="#desarrollo">Development</a></li>
     <li><a href="#contacto">Contact</a></li>
   </ol>
-</details>
+
+As for the requirements I was given, I created this small catalog where you can select one pizza and add/remove ingredients. When the number of ingredients changes, the total price updates automatically, with the total of all its ingredients plus 50% of the total for the preparation.
+
+!['pizzaAppUserExperienceGif'](./readmeAssets/pizzaApp_UserExperience.gif)
+
 
 ## Stack
-Used technologies:
+For the Web app test I decided to use PHP/LARAVEL for the backend and REACT with REDUX for the frontend.
+
+I installed dependencies like axios and react-bootstrap.
+
+#####Used technologies:
 Backend:
 <div align="center">
 
@@ -71,10 +73,12 @@ Frontend:
     <img src= "https://img.shields.io/badge/npm-CC3534?style=for-the-badge&logo=npm&logoColor=white"/>
 </a>
 </div>
-## DDBB diagram
-!['ddbb'](./backend/images/db_pizzaApp.JPG)
 
-## Local installation Backend
+## DDBB diagram
+!['ddbb'](./readmeAssets/db_pizzaApp.JPG)
+
+## Local installation 
+Backend
 
 1. Clone the repository in a terminal in your computer:
 ` $ git clone https://github.com/RamonFolguera/MCO_test_pizza_app_Ramon_Folguera.git `
@@ -254,6 +258,7 @@ Frontend:
 	]
 }
 </details>
+
 ## Local installation Frontend 
 1. Move to my frontend folder.   ` $ cd frontend `
 2. Install all dependencies with: ` $ npm install `
@@ -312,8 +317,11 @@ Frontend:
 
 </details>
 
+## Thanks:
 
+I want to thank you for giving me the opportunity to showcase my skills learnt in the past months. I really enjoyed building this small app and I hope it is up to what standards you are looking for.
 
+I will be more than happy to get any feedback from you. 
 
 Project made by:
 
