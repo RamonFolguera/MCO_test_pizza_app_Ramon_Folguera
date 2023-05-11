@@ -1,7 +1,9 @@
 import React from 'react'
 
-export const Menu = () => {
+export const PizzaInDetail = () => {
   return (
     <div>Menu</div>
   )
 }
+
+
