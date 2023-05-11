@@ -90,8 +90,6 @@ export const PizzaInDetail = () => {
     }
   }, [allIngredients]);
 
-
-
   useEffect(() => {
     if (allIngredientsNotInSelectedPizza.length === 0) {
       bringAllIngredientsNotInPizza(selectedPizza.id)
@@ -173,7 +171,6 @@ export const PizzaInDetail = () => {
   };
 
   const removeIngredient = () => {
-
     handleCloseModal();
     deleteIngredient(selectedPizza.id, {
       ingredient_id: removedIngredient.id,
@@ -227,8 +224,6 @@ export const PizzaInDetail = () => {
               />
             </div>
           )}
-        
-
           <img
             className="selectedImg"
             src={`http://localhost:8000/storage/img/${selectedPizza.image}`}
@@ -259,8 +254,8 @@ export const PizzaInDetail = () => {
                 
               );
             })}
-             </div>
-       
+            </div>
+
         </Col>
         <Col lg={4} xs={12} className="defaultHeight pt-5 d-flex flex-column justify-content-between">
         <div>
@@ -274,7 +269,6 @@ export const PizzaInDetail = () => {
                 aria-label="Default select example"
               >
                 <option>Choose Ingredient to Add</option>
-
                 {allIngredientsNotInSelectedPizza.map((ingredient) => {
                   return (
                     <option key={ingredient.id} value={ingredient.id}>
@@ -286,7 +280,6 @@ export const PizzaInDetail = () => {
               </Form.Select>
             </Form.Group>
           </Form>
-
           <div 
           className="addBtn"
           type="button" onClick={() => addNewIngredient()}>
@@ -300,5 +293,5 @@ export const PizzaInDetail = () => {
       </Row>
     </Container>
   );
-              };
+  };
 };
