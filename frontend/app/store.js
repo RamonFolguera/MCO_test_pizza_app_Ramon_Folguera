@@ -5,7 +5,7 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 
 import thunk from 'redux-thunk';
-import detailsSlice from '../layout/detailsSlice';
+import detailsSlice from '../src/layout/detailsSlice';
 
 const reducers = combineReducers({
     details: detailsSlice,
