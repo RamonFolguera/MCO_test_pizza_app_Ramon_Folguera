@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { detailsData } from "../detailsSlice";
 import {
+  addIngredient,
+  bringAllIngredient_pizzasByPizzaId,
   bringAllIngredients,
   bringAllIngredientsNotInPizza,
+  bringPizzas,
+  deleteIngredient,
 } from "../../services/apiCall";
 import { Col, Container, Form, Row } from "react-bootstrap";
 import { ModalTemplate } from "../../components/ModalTemplate/ModalTemplate";
-import './PizzaInDetail.css'
+import "./PizzaInDetail.css";
 
 export const PizzaInDetail = () => {
   const [allIngredients, setAllIngredients] = useState([]);
@@ -17,23 +21,61 @@ export const PizzaInDetail = () => {
   ] = useState([]);
   const [allIngredientsInSelectedPizza, setAllIngredientsInSelectedPizza] =
     useState([]);
+  const [allIngredient_pizzasByPizzaId, setAllIngredient_pizzasByPizzaId] =
+    useState([]);
+  const [pizzaSelected, setPizzaSelected] = useState([]);
+  const [allPizzas, setAllPizzas] = useState([]);
 
-  const [addedIngredient, setAddedIngredient] = useState([]);
-  const [showModal, setShowModal] = useState(false)
+  const [addedIngredient, setAddedIngredient] = useState({
+    ingredient_id: "",
+  });
+  const [removedIngredient, setRemovedIngredient] = useState({
+    ingredient_id: "",
+  });
+  const [showModal, setShowModal] = useState(false);
 
   const handleShowModal = () => {
-    setShowModal(true)
-  }
-
+    setShowModal(true);
+  };
   const handleCloseModal = () => {
-    setShowModal(false)
-  }
+    setShowModal(false);
+  };
 
   const pizzaDetailsRedux = useSelector(detailsData);
   const selectedPizza = pizzaDetailsRedux.choosenPizza;
   const ingredient_pizzaSelected = selectedPizza.ingredient_pizzas;
-
   console.log(ingredient_pizzaSelected);
+
+  const inputHandler = (e) => {
+    setAddedIngredient((prevState) => ({
+      ...prevState,
+      [e.target.name]: parseInt(e.target.value),
+    }));
+  };
+
+  console.log(removedIngredient, "delete");
+
+  console.log(addedIngredient, "add");
+  useEffect(() => {
+    if (allPizzas.length === 0) {
+      bringPizzas()
+        .then((result) => {
+          if (result.data.data.length === 0) {
+            return;
+          }
+          console.log(result.data.data);
+          console.log(selectedPizza);
+          const myPizza = result.data.data.find(
+            (pizza) => pizza.id === selectedPizza.id
+          );
+          setPizzaSelected(myPizza);
+          
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [allPizzas]);
+
+  console.log(pizzaSelected);
 
   useEffect(() => {
     if (allIngredients.length === 0) {
@@ -44,16 +86,6 @@ export const PizzaInDetail = () => {
           if (result.data.data.length === 0) {
             return;
           }
-
-          let ingredientsInSelectedPizza = [];
-          result.data.data.map((ingredient) => {
-            ingredient_pizzaSelected.map((ingredientInPizza) => {
-              if (ingredient.id === ingredientInPizza.ingredient_id) {
-                ingredientsInSelectedPizza.push(ingredient);
-              }
-            });
-          });
-          setAllIngredientsInSelectedPizza(ingredientsInSelectedPizza);
 
           setAllIngredients(result.data.data);
         })
@@ -77,20 +109,109 @@ export const PizzaInDetail = () => {
     }
   }, [allIngredientsNotInSelectedPizza]);
 
+  useEffect(() => {
+    if (allIngredient_pizzasByPizzaId.length === 0) {
+      bringAllIngredient_pizzasByPizzaId(selectedPizza.id)
+        .then((result) => {
+          console.log(result, "ing_pizza");
+          console.log(allIngredients, "all");
+          if (result.data.data.length === 0) {
+            return;
+          }
+          let ingredientsInSelectedPizza = [];
+          allIngredients.map((ingredient) => {
+            result.data.data.map((ingredientInPizza) => {
+              if (ingredient.id === ingredientInPizza.ingredient_id) {
+                ingredientsInSelectedPizza.push(ingredient);
+              }
+            });
+          });
 
-const addNewIngredient = () =>{
+          setAllIngredientsInSelectedPizza(ingredientsInSelectedPizza);
 
-}
+          setAllIngredient_pizzasByPizzaId(result.data.data);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [allIngredients, allIngredient_pizzasByPizzaId]);
 
-const removeIngredient = () =>{
-  
-}
+  console.log(allIngredient_pizzasByPizzaId);
+  console.log(allIngredientsInSelectedPizza);
+
+  const handleModalClick = (ingredient) => {
+    handleShowModal();
+    setRemovedIngredient(ingredient);
+  };
+
+  const addNewIngredient = () => {
+    addIngredient(selectedPizza.id, {
+      ingredient_id: addedIngredient.ingredient_id,
+    })
+      .then((response) => {
+        console.log(response);
+
+        setAllIngredient_pizzasByPizzaId((prevState) => [
+          ...prevState,
+          {
+            id: response.data.data.id,
+            pizza_id: selectedPizza.id,
+            ingredient_id: addedIngredient.ingredient_id,
+          },
+          setAllIngredientsInSelectedPizza((prevState) => [
+            ...prevState,
+            allIngredients.find(
+              (ingredient) => ingredient.id === addedIngredient.ingredient_id
+            ),
+          ]),
+        ]);
+        bringPizzas()
+        .then((result) => {
+          const updatedPizza = result.data.data.find(
+            (pizza) => pizza.id === selectedPizza.id
+          );
+          setPizzaSelected(updatedPizza);
+        })
+      })
+
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const removeIngredient = () => {
+    console.log(removedIngredient.id);
+    handleCloseModal();
+    deleteIngredient(selectedPizza.id, {
+      ingredient_id: removedIngredient.id,
+    })
+      .then((response) => {
+        console.log(response);
+
+        setAllIngredientsInSelectedPizza((prevState) =>
+          prevState.filter(
+            (ingredient) => ingredient.id !== removedIngredient.id
+          )
+        );
+
+        bringPizzas()
+        .then((result) => {
+          const updatedPizza = result.data.data.find(
+            (pizza) => pizza.id === selectedPizza.id
+          );
+          setPizzaSelected(updatedPizza);
+        })
+       
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <Container>
-      <Row>
+      <Row className="mt-5">
         <Col className="defaultHeight">
-        {showModal && (
+          {showModal && (
             <div className="modalContainer">
               <ModalTemplate
                 key="ingredientsModal"
@@ -101,24 +222,30 @@ const removeIngredient = () =>{
                 button2="Yes, remove."
                 clickFunction1={() => handleCloseModal()}
                 clickFunction2={() => removeIngredient()}
-                handleShowModal
               />
             </div>
           )}
-          {selectedPizza.name}
-          {selectedPizza.pizza_price}
 
           <img
             src={`http://localhost:8000/storage/img/${selectedPizza.image}`}
             alt=""
           />
+          {pizzaSelected.name}
+          {pizzaSelected.pizza_price}
+        </Col>
+
+        <Col className="defaultHeight">
           {selectedPizza &&
             allIngredientsInSelectedPizza.map((ingredient) => {
               return (
                 <div key={ingredient.id}>
                   <div className="d-flex">
                     <p className="me-5">{ingredient.name} </p>
-                    <div type="button" onClick={() => handleShowModal()}>
+                    <div
+                      className="deleteBtn"
+                      type="button"
+                      onClick={() => handleModalClick(ingredient)}
+                    >
                       REMOVE
                     </div>
                   </div>
@@ -127,30 +254,31 @@ const removeIngredient = () =>{
             })}
         </Col>
         <Col>
-     
           <Form>
             <Form.Group className="mb-3">
-              <p className="pe-4 nameFieldDesign ps-3">CATEGORY</p>
+              <p className="pe-4 nameFieldDesign ps-3">LIST OF INGREDIENTS</p>
               <Form.Select
                 className="selectCategoryDesign"
-                name={"allIngredientsNotInSelectedPizza"}
+                name={"ingredient_id"}
                 onChange={(e) => inputHandler(e)}
                 aria-label="Default select example"
               >
                 <option>Choose Ingredient to Add</option>
 
-                {allIngredientsNotInSelectedPizza.map((category) => {
+                {allIngredientsNotInSelectedPizza.map((ingredient) => {
                   return (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                      {category.ingredient_price}
+                    <option key={ingredient.id} value={ingredient.id}>
+                      {ingredient.name}
+                      {ingredient.ingredient_price}
                     </option>
                   );
                 })}
               </Form.Select>
             </Form.Group>
           </Form>
-          <div type="button" onClick={() => addNewIngredient()}>
+          <div 
+          className="addBtn"
+          type="button" onClick={() => addNewIngredient()}>
             ADD
           </div>
         </Col>
