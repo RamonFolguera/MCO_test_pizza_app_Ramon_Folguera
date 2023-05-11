@@ -1,0 +1,40 @@
+img{
+    height: 15em;
+}
+
+.seeMoreBtn{
+    height: 2em;
+    width: 12em;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-weight: bolder;
+    background-color: white;
+    border-radius: 100px;
+    border:1px solid #ee6055;
+}
+
+.seeMoreBtn:hover{
+    text-decoration: none;
+    color: white;
+    font-weight: bolder;
+    background-color: #ee6055;
+    border-radius: 100px;
+    border:1px solid #ee6055;
+    cursor:pointer;
+}
+
+.cardContainer{
+    width: 100%;
+    background-color: rgb(244, 244, 244);
+    border-radius: 15px;
+}
+
+.titlefield {
+    color:rgb(89, 89, 89);
+    font-weight: bolder;
+    
+}
+
+.spinnerDesign {
+font-size: 2em;
+}
