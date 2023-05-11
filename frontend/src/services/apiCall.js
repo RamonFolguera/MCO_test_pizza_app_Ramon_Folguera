@@ -15,7 +15,7 @@ export const bringPizzas = async () => {
 
   export const bringAllIngredientsNotInPizza = async (params) => {
    
-    return await axios.get(`${root}/ingredients-not-in-pizza/${params}`);
+    return await axios.get(`${root}ingredients-not-in-pizza/${params}`);
   }
 
   export const addIngredient = async (params, body) => {
