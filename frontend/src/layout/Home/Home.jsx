@@ -2,18 +2,27 @@ import React, { useEffect, useState } from "react";
 import { bringPizzas } from "../../services/apiCall";
 import { Col, Container, Row } from "react-bootstrap";
 import "./home.css";
-import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-export const Home = () => {
-  const [allPizzas, setAllPizzas] = useState([]);
+import { SpinnerComponent } from "../../components/SpinnerComponent/SpinnerComponent";
+import { addChoosenPizza } from '../detailsSlice'
+import { useNavigate } from "react-router";
 
-const dispatch = useDispatch()
+
+export const Home = () => {
+
+  const [allPizzas, setAllPizzas] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+const navigate = useNavigate();
+const dispatch = useDispatch();
 
   useEffect(() => {
     if (allPizzas.length === 0) {
       bringPizzas()
         .then((result) => {
-          console.log(result.data.data);
+          setLoading(false)
+
+
           if (result.data.data.length === 0) {
             return;
           }
@@ -23,6 +32,23 @@ const dispatch = useDispatch()
     }
   }, [allPizzas]);
 
+const goToPizzaSelected = (pizza) => {
+
+  dispatch(addChoosenPizza({ choosenPizza: pizza }))
+
+  setTimeout(() => {
+    navigate('/pizza-detail')
+  }, 500)
+}
+
+
+if (loading) {
+  return (
+    <div className="defaultHeight spinnerDesign d-flex justify-content-center align-items-center flex-column">
+      <SpinnerComponent message="Pizzas in the oven... hold on!" />
+    </div>
+  )
+} else if (allPizzas.length > 0) {
   return (
     <>
       <Container fluid className="d-flex justify-content-center flex-wrap">
@@ -54,13 +80,13 @@ const dispatch = useDispatch()
                         src={`http://localhost:8000/storage/img/${pizza.image}`}
                         alt=""
                       />
-                      <Link
+                      <div
                         type="button"
-                        to="/pizza-detail"
+                        onClick = {() => goToPizzaSelected(pizza)}
                         className="d-flex justify-content-center align-items-center mb-0 mt-3 seeMoreBtn"
                       >
                         Click for more details
-                      </Link>
+                      </div>
                     </div>
                 
                 </div>
@@ -72,3 +98,4 @@ const dispatch = useDispatch()
     </>
   );
 };
+}
