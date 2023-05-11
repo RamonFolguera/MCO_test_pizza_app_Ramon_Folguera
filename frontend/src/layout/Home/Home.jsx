@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import { bringPizzas } from "../../services/apiCall";
 import { Col, Container, Row } from "react-bootstrap";
 import "./home.css";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 export const Home = () => {
   const [allPizzas, setAllPizzas] = useState([]);
+
+const dispatch = useDispatch()
 
   useEffect(() => {
     if (allPizzas.length === 0) {
@@ -22,7 +26,7 @@ export const Home = () => {
   return (
     <>
       <Container fluid className="d-flex justify-content-center flex-wrap">
-        <Row className="w-75">
+        <Row className="w-75 mt-5 mb-5">
           {allPizzas.map((pizza) => {
             return (
               <Col
@@ -50,12 +54,13 @@ export const Home = () => {
                         src={`http://localhost:8000/storage/img/${pizza.image}`}
                         alt=""
                       />
-                      <div
+                      <Link
                         type="button"
+                        to="/pizza-detail"
                         className="d-flex justify-content-center align-items-center mb-0 mt-3 seeMoreBtn"
                       >
                         Click for more details
-                      </div>
+                      </Link>
                     </div>
                 
                 </div>

@@ -1,0 +1,9 @@
+body {
+    margin: 0;
+    font-size: 1.5em;
+    font-family: 'Fira Sans', sans-serif;;
+    color: #444;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: block;
+  }
