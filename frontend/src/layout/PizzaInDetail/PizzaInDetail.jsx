@@ -12,6 +12,7 @@ import {
 import { Col, Container, Form, Row } from "react-bootstrap";
 import { ModalTemplate } from "../../components/ModalTemplate/ModalTemplate";
 import "./PizzaInDetail.css";
+import { SpinnerComponent } from "../../components/SpinnerComponent/SpinnerComponent";
 
 export const PizzaInDetail = () => {
   const [allIngredients, setAllIngredients] = useState([]);
@@ -25,6 +26,7 @@ export const PizzaInDetail = () => {
     useState([]);
   const [pizzaSelected, setPizzaSelected] = useState([]);
   const [allPizzas, setAllPizzas] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [addedIngredient, setAddedIngredient] = useState({
     ingredient_id: "",
@@ -122,6 +124,7 @@ export const PizzaInDetail = () => {
           });
 
           setAllIngredientsInSelectedPizza(ingredientsInSelectedPizza);
+          setLoading(false)
 
           setAllIngredient_pizzasByPizzaId(result.data.data);
         })
@@ -198,6 +201,14 @@ export const PizzaInDetail = () => {
       });
   };
 
+
+  if (loading) {
+    return (
+      <div className="defaultHeight spinnerDesign d-flex justify-content-start align-items-center flex-column mt-5">
+        <SpinnerComponent message="Pizzas in the oven... hold on!" />
+      </div>
+    )
+  } else if (allIngredientsInSelectedPizza.length > 0) {
   return (
     <Container>
       <Row className="">
@@ -289,4 +300,5 @@ export const PizzaInDetail = () => {
       </Row>
     </Container>
   );
+              };
 };

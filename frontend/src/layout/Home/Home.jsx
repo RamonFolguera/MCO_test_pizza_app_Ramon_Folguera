@@ -44,7 +44,7 @@ const goToPizzaSelected = (pizza) => {
 
 if (loading) {
   return (
-    <div className="defaultHeight spinnerDesign d-flex justify-content-center align-items-center flex-column">
+    <div className="defaultHeight spinnerDesign d-flex justify-content-start align-items-center flex-column mt-5">
       <SpinnerComponent message="Pizzas in the oven... hold on!" />
     </div>
   )
