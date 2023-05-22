@@ -1,4 +1,4 @@
-# Pizza Web app test for MCO by Ramón Folguera🧑💻
+# Pizza Web app test by Ramón Folguera🧑💻
 
   <summary>Summary 📝</summary>
   <ol>
